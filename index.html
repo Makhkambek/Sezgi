@@ -120,6 +120,24 @@ h2 em{font-style:italic;color:inherit;font-weight:500}
 .feel{font-family:'Newsreader',Georgia,serif;font-style:italic;font-weight:500;color:inherit;position:relative}
 .feel:after{content:'';position:absolute;left:0;right:0;bottom:.02em;height:3px;border-radius:2px;background:currentColor;transform-origin:left;transform:scaleX(0);transition:transform 1s .5s}
 .rv.in .feel:after,html.shot .feel:after{transform:scaleX(1)}
+/* anatomy */
+.anat{padding:130px 32px 0}
+.anat h2{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:clamp(38px,4.6vw,64px);line-height:1.03;margin-top:16px;max-width:900px}
+.dia{position:relative;display:grid;grid-template-columns:1fr minmax(260px,380px) 1fr;align-items:center;gap:40px;margin-top:40px}
+.lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:3}
+.col{display:flex;flex-direction:column;gap:120px;position:relative;z-index:1}
+.col.l{text-align:right;align-items:flex-end}
+.co{max-width:300px}
+.cn{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:clamp(36px,3.4vw,50px);line-height:1;display:flex;align-items:baseline;gap:8px}
+.col.l .cn{justify-content:flex-end}
+.cn i{font-style:normal;font-family:'Geist Mono',monospace;font-size:12px;color:var(--mut);letter-spacing:.08em}
+.co p{color:var(--body);font-size:15px;margin-top:10px}
+.co .v{display:inline-block;margin-top:12px;font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#3DDC97;border:1px solid rgba(61,220,151,.3);padding:3px 8px;border-radius:999px}
+.co .v.soon{color:#9AA3AD;border-color:var(--line)}
+.gimg{position:relative}
+.gimg img{width:100%;-webkit-mask-image:linear-gradient(#000 78%,transparent 98%);mask-image:linear-gradient(#000 78%,transparent 98%)}
+.dot{fill:#F2F3F4;stroke:#0C0E11;stroke-width:2}.ring{fill:rgba(12,14,17,.35);stroke:#F2F3F4;stroke-opacity:.6;animation:ping 2.4s infinite;transform-box:fill-box;transform-origin:center}
+@keyframes ping{0%{transform:scale(.7);opacity:1}100%{transform:scale(1.6);opacity:0}}
 /* see/feel */
 .seefeel{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px}
 .sf{background:var(--card);border-radius:22px;overflow:hidden}
@@ -279,7 +297,7 @@ html.shot .rv{opacity:1;transform:none}
   .hero{grid-template-columns:1fr;min-height:auto}
   .hero .txt{padding:56px 0 30px}
   .hero .vis{width:min(80%,320px)}
-  .duo,.cards3,.news,.uz,.team,.steps,.pstats,.sgrid,.egrid,.work{grid-template-columns:1fr}.hwlist{grid-template-columns:1fr 1fr;row-gap:28px}.hwi{border-right:0;padding:20px 12px 0 0}.problem,.specs2,.hw,.evid,.work,.cmp{padding:90px 20px 0}.seefeel{grid-template-columns:1fr}.gap{grid-template-columns:1fr;gap:32px}.sfv{height:320px}.sfv img,.glove2{height:300px}.qr{grid-template-columns:1fr;gap:10px}.qr span{text-align:left}.work{gap:36px}.trust .wrap{font-size:13px}.fcards{grid-template-columns:1fr 1fr;gap:12px}.field{padding:90px 20px 0}.fc h4{font-size:16px}.fc p{font-size:13px}.steps{gap:36px}.how{padding:90px 20px 70px}.proof{padding:80px 20px 0}.pcard{grid-template-columns:1fr;gap:18px;padding:30px 24px}.pn{font-size:clamp(52px,15vw,80px)}.ptxt p{font-size:18px}.lightblock{margin-top:80px}
+  .duo,.cards3,.news,.uz,.team,.steps,.pstats,.sgrid,.egrid,.work{grid-template-columns:1fr}.hwlist{grid-template-columns:1fr 1fr;row-gap:28px}.hwi{border-right:0;padding:20px 12px 0 0}.problem,.specs2,.hw,.evid,.work,.cmp,.anat{padding:90px 20px 0}.dia{grid-template-columns:1fr;gap:28px}.lines{display:none}.col{gap:24px}.col.l{text-align:left;align-items:flex-start}.col.l .cn{justify-content:flex-start}.gimg{order:-1;width:70%;margin:0 auto}.seefeel{grid-template-columns:1fr}.gap{grid-template-columns:1fr;gap:32px}.sfv{height:320px}.sfv img,.glove2{height:300px}.qr{grid-template-columns:1fr;gap:10px}.qr span{text-align:left}.work{gap:36px}.trust .wrap{font-size:13px}.fcards{grid-template-columns:1fr 1fr;gap:12px}.field{padding:90px 20px 0}.fc h4{font-size:16px}.fc p{font-size:13px}.steps{gap:36px}.how{padding:90px 20px 70px}.proof{padding:80px 20px 0}.pcard{grid-template-columns:1fr;gap:18px;padding:30px 24px}.pn{font-size:clamp(52px,15vw,80px)}.ptxt p{font-size:18px}.lightblock{margin-top:80px}
   .duo{padding:0 12px}.prod .top{padding:56px 24px 34px}
   .prod.light .ph{aspect-ratio:auto;padding:22px 0}.prod.light .datapanel{position:static}.cons{width:94%}.cbar{gap:10px}.cbar .sess,.cbar .hz{display:none}.cbar .rec2{margin-left:auto}.cmain{grid-template-columns:1fr}.mapcol{border-right:0;border-bottom:1px solid #1E2328}.kpis b{font-size:16px}
   .head{flex-direction:column;align-items:flex-start}
@@ -342,7 +360,7 @@ html.shot .rv{opacity:1;transform:none}
 <div class="duo" id="products">
   <div class="prod dark">
     <div class="top"><div class="eyebrow">Sezgi Glove · v0</div><h2>Sezgi Glove</h2>
-      <p>500 touch sensors woven into a thin glove you can wear all day.</p>
+      <p>500 touch sensors woven into a thin, washable glove.</p>
       <div class="cta"><a class="btn sm" href="#contact">Learn more</a><a class="btn sm ghost" href="#contact">Pilot</a></div></div>
     <div class="ph"><img src="img/panel-glove.jpg" alt="Back of the Sezgi glove"></div>
   </div>
@@ -384,31 +402,26 @@ html.shot .rv{opacity:1;transform:none}
 
 
 
-<section class="wrap specs2" id="specs">
-  <div class="eyebrow rv">03 · What one glove records</div>
+<section class="wrap anat" id="specs">
+  <div class="eyebrow rv">03 · The glove</div>
   <h2 class="rv">Every touch, measured. <em>Across the whole hand.</em></h2>
-  <div class="sgrid">
-    <div class="sp rv"><div class="t"><b>500</b><i>taxels</i></div><p>Piezoresistive textile array knitted into the glove — palm to fingertips, ~4 mm pitch.</p></div>
-    <div class="sp rv"><div class="t"><b>26</b><i>DOF</i></div><p>Joint angles for every finger, read on the hand by inertial sensors — not guessed from video.</p></div>
-    <div class="sp rv"><div class="t"><b>3-axis</b><i>force</i></div><p>Normal force and shear at the fingertips — the signal that predicts a slip before the drop.</p></div>
-    <div class="sp rv"><div class="t"><b>&lt;10</b><i>ms sync</i></div><p>Touch, joints and video on one hardware clock at 100 Hz, exported in LeRobot format.</p></div>
+  <div class="dia rv" id="dia">
+    <svg class="lines" id="lines" aria-hidden="true"></svg>
+    <div class="col l">
+      <div class="co" data-pt=".21,.10"><div class="cn">4<i>mm</i></div><p>Sensor pitch — touch resolved down to a fingertip’s edge.</p><span class="v">v0</span></div>
+      <div class="co" data-pt=".40,.58"><div class="cn">500<i>taxels</i></div><p>Textile pressure array knitted in, palm to fingertips.</p><span class="v">v0</span></div>
+    </div>
+    <div class="gimg"><img src="img/glove-palm.png" alt="Sezgi glove"></div>
+    <div class="col r">
+      <div class="co" data-pt=".55,.34"><div class="cn">26<i>DOF</i></div><p>Every finger joint tracked by motion sensors in the knit.</p><span class="v soon">v1</span></div>
+      <div class="co" data-pt=".48,.86"><div class="cn">4<i>hours</i></div><p>Thin, washable fabric — worn through half a work shift on one charge.</p><span class="v">v0</span></div>
+    </div>
   </div>
-  <p class="note rv">Specs are design targets for v1.</p>
-</section>
-
-<section class="wrap hw" id="hardware">
-  <div class="eyebrow rv">04 · What we’re building</div>
-  <h2 class="rv">The hardware, <em>step by step.</em></h2>
-  <div class="hwlist">
-    <div class="hwi rv"><span class="ver">v0 · in development</span><h4>Knitted sensor lattice</h4><p>Conductive threads cross a pressure-sensitive layer; every crossing becomes a sensor. Thin, washable, worn all day.</p></div>
-    <div class="hwi rv"><span class="ver">v0 · in development</span><h4>Wireless capture module</h4><p>A small wrist unit reads all 500 taxels and streams them with a synced first-person camera.</p></div>
-    <div class="hwi rv"><span class="ver soon">v1 · next</span><h4>Joint tracking</h4><p>Sixteen motion nodes sit flush in the knit and track every finger joint.</p></div>
-    <div class="hwi rv"><span class="ver soon">v1 · next</span><h4>Fingertip force &amp; shear</h4><p>Magnetic 3-axis sensors on the fingertips calibrate the whole glove in newtons.</p></div>
-  </div>
+  <p class="note rv">Design targets · v0 in development · v1 next</p>
 </section>
 
 <section class="wrap cmp" id="compare">
-  <div class="eyebrow rv">06 · Side by side</div>
+  <div class="eyebrow rv">04 · Side by side</div>
   <h2 class="rv">How robots learn to use their hands <em>today.</em></h2>
   <p class="lead2 rv">The touch column is where every other method runs out.</p>
   <div class="tbl rv"><table>
@@ -423,7 +436,7 @@ html.shot .rv{opacity:1;transform:none}
 </section>
 
 <section class="wrap evid" id="evidence">
-  <div class="eyebrow rv">07 · Research</div>
+  <div class="eyebrow rv">05 · Research</div>
   <h2 class="rv">The research <em>is already in.</em></h2>
   <div class="quotes2">
     <a class="qr rv" href="https://tacross-touch-project.github.io/" target="_blank" rel="noopener"><p>Adding about an hour of human glove data raised robot task success from <em>51% to 92%</em>.</p><span>TACROSS · 2026 ↗</span></a>
@@ -435,7 +448,7 @@ html.shot .rv{opacity:1;transform:none}
 
 <section class="wrap work" id="contact">
   <div class="wl">
-    <div class="eyebrow rv">08 · Work with us</div>
+    <div class="eyebrow rv">06 · Work with us</div>
     <h2 class="rv">Building a robot hand? <em>Let’s give it a sense of touch.</em></h2>
     <div class="opts">
       <div class="op rv"><h4>Robot labs</h4><p>Early access to tactile datasets in your hand’s format.</p></div>
@@ -533,6 +546,13 @@ document.getElementById('form').addEventListener('submit',e=>{e.preventDefault()
  const body=`Name: ${f.get('name')}\nEmail: ${f.get('email')}\nCompany / lab: ${f.get('org')}\nInterested in: ${f.get('topic')}\n\n${f.get('msg')}`;
  document.getElementById('fsent').classList.add('on');
  location.href='mailto:hello@sezgi.ai?subject='+encodeURIComponent('Sezgi — '+f.get('topic'))+'&body='+encodeURIComponent(body)});
+(function(){const d=document.getElementById('dia'),svg=document.getElementById('lines'),im=d.querySelector('.gimg img');
+function draw(){if(getComputedStyle(svg).display==='none')return;const R=d.getBoundingClientRect(),I=im.getBoundingClientRect();let h='';
+ d.querySelectorAll('.co').forEach(c=>{const [u,v]=c.dataset.pt.split(',').map(Number),px=I.left-R.left+u*I.width,py=I.top-R.top+v*I.height,C=c.getBoundingClientRect(),left=c.closest('.col').classList.contains('l');
+  const cx=left?C.right-R.left+18:C.left-R.left-18,cy=C.top-R.top+26,mx=left?cx+30:cx-30;
+  h+=`<polyline points="${cx},${cy} ${mx},${cy} ${px},${py}" fill="none" stroke="rgba(242,243,244,.45)" stroke-width="1"/><circle class="ring" cx="${px}" cy="${py}" r="9"/><circle class="dot" cx="${px}" cy="${py}" r="3.5"/>`});
+ svg.innerHTML=h}
+addEventListener('resize',draw);im.complete?draw():im.addEventListener('load',draw);setTimeout(draw,600)})();
 </script>
 </body>
 </html>
