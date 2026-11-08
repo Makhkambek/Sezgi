@@ -61,7 +61,7 @@
       const R = W * (wrap.hasAttribute('data-photo') ? 0.08 : 0.12);
       // idle demo: a soft "grasp" that sweeps over the fingers
       let ix = -1e4, iy = -1e4;
-      if (idle && !reduce) {
+      if (idle && !reduce && !wrap.hasAttribute('data-photo')) {
         const t = (now - t0) / 1000;
         ix = W * (0.5 + 0.28 * Math.sin(t * 0.9));
         iy = H * (0.30 + 0.16 * Math.sin(t * 0.6 + 1.2));
