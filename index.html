@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sezgi — tactile data for robot hands</title>
+<meta name="description" content="Sezgi makes a fabric glove that records human touch across the whole hand and every finger joint — the training data robot hands are missing.">
+<meta property="og:title" content="Sezgi — we teach robots to feel">
+<meta property="og:description" content="A fabric glove that records human touch across the whole hand and every finger joint — the training data robot hands are missing.">
+<meta property="og:image" content="img/og.png"><meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0C0E11">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230C0E11'/%3E%3Cpath d='M18 18h28v8H26v4h20v16H18v-8h20v-4H18z' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>if(new URLSearchParams(location.search).get('shot'))document.documentElement.classList.add('shot')</script>
+<style>
+:root{--bg:#0C0E11;--card:#171A1E;--card2:#1D2126;--ink:#F2F3F4;--body:#A3A9B1;--mut:#6C727B;--line:#23272D;--light:#EEF1F4;--lightInk:#0F1215;--blush:#E7DBD5;--acc:#3EC1EE}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{overflow-x:hidden;background:var(--bg);color:var(--ink);font-family:'Geist',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.5}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{max-width:1216px;margin:0 auto;padding:0 32px}
+.eyebrow{font-family:'Geist Mono',monospace;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--mut)}
+.serif{font-family:'Newsreader',Georgia,serif;font-weight:500;letter-spacing:-.01em}
+.btn{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 24px;border-radius:999px;font-size:16px;font-weight:500;background:var(--ink);color:var(--lightInk);transition:opacity .2s}
+.btn:hover{opacity:.88}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.sm{height:42px;padding:0 20px;font-size:15px}
+.btn svg{width:16px;height:16px}
+/* nav */
+nav{position:sticky;top:0;z-index:40;background:rgba(12,14,17,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+nav .wrap{display:flex;align-items:center;height:64px;gap:36px}
+.word{font-family:'Silkscreen',monospace;font-weight:700;font-size:28px;letter-spacing:.02em;line-height:1}
+nav .links{display:flex;gap:26px;margin-left:auto;font-size:15px;color:#D0D4D9}
+nav .links a:hover{color:#fff}
+nav .menu{font-size:15px;color:#D0D4D9;display:flex;gap:6px;align-items:center}
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;align-items:end;min-height:0}
+.hero .txt{padding:110px 0 96px}
+.hero h1{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:clamp(52px,6.2vw,84px);max-width:600px;line-height:1.02;letter-spacing:-.015em;margin-top:26px}
+.hero p{font-size:20px;color:#BFC4CA;max-width:520px;margin-top:22px;line-height:1.55}
+.hero .cta{display:flex;gap:12px;margin-top:36px;flex-wrap:wrap}
+.badge{display:flex;align-items:center;gap:12px;margin-top:34px;font-size:15px;color:#BFC4CA}
+.badge i{width:22px;height:22px;border-radius:4px;display:grid;place-items:center;background:linear-gradient(#1EB53A 0 33%,#fff 33% 37%,#0099B5 37% 63%,#fff 63% 67%,#CE1126 67%);flex:none}
+.hero .vis{position:relative;align-self:end;justify-self:center;width:min(100%,470px);margin-bottom:-40px;z-index:2;cursor:crosshair;touch-action:pan-y}
+.hero .vis img{width:100%;-webkit-mask-image:linear-gradient(#000 80%,transparent 100%);mask-image:linear-gradient(#000 80%,transparent 100%);user-select:none;-webkit-user-drag:none}
+.hero .vis .touch-layer{position:absolute;inset:0;pointer-events:none}
+/* product cards */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:0 16px}
+.prod{border-radius:28px;overflow:hidden;display:flex;flex-direction:column}
+.prod .top{padding:84px 40px 46px;text-align:center}
+.prod h2{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:clamp(40px,4.4vw,64px);line-height:1.02;letter-spacing:-.015em;margin-top:16px}
+.prod p{font-size:clamp(17px,1.6vw,22px);line-height:1.45;max-width:470px;margin:18px auto 0}
+.prod .cta{display:flex;gap:10px;justify-content:center;margin-top:30px}
+.prod .ph{aspect-ratio:1100/820;background:var(--blush);overflow:hidden;position:relative;flex:1}
+.prod.light .ph{aspect-ratio:auto;padding:44px 0}.prod.light .datapanel{position:static}
+.prod .ph img{width:100%;height:100%;object-fit:cover}
+.prod.dark{background:var(--card)}.prod.dark p{color:var(--body)}
+.prod.light{background:var(--light);color:var(--lightInk)}.prod.light p{color:#5B626B}.prod.light .eyebrow{color:#7A8189}
+.prod.light .btn{background:var(--lightInk);color:#fff}.prod.light .btn.ghost{background:transparent;color:var(--lightInk);border-color:#C9CED4}
+.datapanel{position:absolute;inset:0;display:grid;place-items:center}
+.cons{width:90%;background:#0D1013;border:1px solid #23282E;border-radius:16px;color:#C9CFD6;font-family:'Geist Mono',monospace;font-size:10.5px;box-shadow:0 40px 80px rgba(60,35,25,.28);overflow:hidden}
+.cbar{display:flex;align-items:center;gap:14px;padding:10px 14px;border-bottom:1px solid #1E2328;color:#7E8791;letter-spacing:.04em}
+.cbar .brand{color:#E9ECEF;font-weight:500;letter-spacing:.12em}
+.cbar .sess{margin-right:auto}
+.rec2{display:flex;align-items:center;gap:6px;color:#FF5A4E}.rec2 i{width:6px;height:6px;border-radius:50%;background:#FF5A4E;animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.25}}
+.cmain{display:grid;grid-template-columns:1.05fr 1fr;border-bottom:1px solid #1E2328}
+.mapcol{padding:12px 14px;border-right:1px solid #1E2328}
+.sidecol{padding:12px 14px;display:flex;flex-direction:column}
+.clabel{display:flex;gap:14px;color:#6E7781;text-transform:uppercase;letter-spacing:.1em;font-size:9.5px;margin-bottom:8px}
+.clabel .ax{margin-left:auto}
+.mapwrap{position:relative}
+#handmap{width:100%;aspect-ratio:1/1.08;display:block;cursor:crosshair;touch-action:none;border-radius:8px;background:#0A0C0F}
+.tip{position:absolute;pointer-events:none;background:#E9ECEF;color:#0D1013;font-size:10px;padding:3px 6px;border-radius:4px;white-space:nowrap;transform:translate(10px,-24px);opacity:0;transition:opacity .15s}
+.hint2{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);white-space:nowrap;font-size:9.5px;letter-spacing:.06em;color:#9BE3F7;background:rgba(10,12,15,.8);border:1px solid rgba(155,227,247,.3);padding:4px 8px;border-radius:999px;pointer-events:none;transition:opacity .3s;animation:pulse2 2s infinite}
+@keyframes pulse2{50%{border-color:rgba(155,227,247,.85)}}
+.hint2.off{opacity:0}
+.cscale{display:flex;align-items:center;gap:8px;margin-top:8px;color:#6E7781;font-size:9.5px}
+.cscale i{flex:1;height:6px;border-radius:3px;background:linear-gradient(90deg,#1B2129,#3B0F70,#8C2981,#DE4968,#FE9F6D,#FCFDBF)}
+.regions{display:grid;gap:7px}
+.rg{display:grid;grid-template-columns:52px 1fr 34px;align-items:center;gap:8px}
+.rg span{color:#8C959F}.rg em{font-style:normal;text-align:right;color:#E9ECEF;font-variant-numeric:tabular-nums}
+.rg .bar{height:6px;background:#1A1F25;border-radius:3px;overflow:hidden}.rg .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#8C2981,#DE4968,#FE9F6D);border-radius:3px}
+.kpis{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:auto;padding-top:12px}
+.kpis div{background:#13171B;border:1px solid #1E2328;border-radius:8px;padding:8px}
+.kpis small{display:block;color:#6E7781;font-size:9px;text-transform:uppercase;letter-spacing:.08em}
+.kpis b{display:block;font-family:'Geist',sans-serif;font-size:19px;font-weight:600;color:#F2F4F6;margin-top:3px;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.kpis b u{text-decoration:none;font-size:10px;color:#7E8791;margin-left:3px;font-family:'Geist Mono'}
+.kpis b.st{font-family:'Geist Mono';font-size:12px;letter-spacing:.06em;padding-top:5px}
+.kpis b.ok{color:#3DDC97}.kpis b.bad{color:#FF5A4E}
+.cplots{padding:10px 14px 12px}
+#plot{width:100%;height:70px;display:block}
+
+/* trust */
+.trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:40px}
+.trust .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;min-height:64px;font-size:14px;color:var(--body);flex-wrap:wrap;padding-top:14px;padding-bottom:14px}
+.trust b{color:var(--ink);font-weight:600}.trust .tg{color:var(--mut)}.trust .tg b{color:#D0D4D9;font-weight:500}
+/* shared section heads */
+.problem,.specs2,.hw,.evid,.work{padding:130px 32px 0}
+.problem h2,.specs2 h2,.hw h2,.evid h2,.work h2{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:clamp(38px,4.6vw,64px);line-height:1.03;letter-spacing:-.015em;margin-top:16px;max-width:900px}
+h2 em{font-style:italic;color:inherit;font-weight:500}
+.lead2{font-size:20px;color:#BFC4CA;max-width:680px;margin-top:22px}
+.pstats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.pstats div{border-top:1px solid var(--line);padding-top:22px}
+.pstats b{display:block;font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:clamp(48px,5vw,72px);line-height:1}
+.pstats span{display:block;color:var(--body);margin-top:10px;font-size:16px}
+/* gap */
+.gap{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center}
+.gv{margin:0}
+.vwrap{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:16/10;background:#000;box-shadow:0 30px 70px rgba(0,0,0,.4)}
+.vwrap video{width:100%;height:100%;object-fit:cover;display:block}
+.hud{position:absolute;left:14px;right:14px;top:14px;display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.hud span{background:rgba(0,0,0,.55);backdrop-filter:blur(6px);color:#E9ECEF;padding:6px 10px;border-radius:8px;display:flex;align-items:center;gap:8px}
+.hud i{width:7px;height:7px;border-radius:50%;background:#FF5A4E;animation:blink 1.2s infinite}
+.hud u{text-decoration:none;color:#FF7A6E}
+.gv figcaption{color:var(--body);font-size:15px;margin-top:16px}
+.gt h2{margin-top:16px}
+.feel{font-family:'Newsreader',Georgia,serif;font-style:italic;font-weight:500;color:inherit;position:relative}
+.feel:after{content:'';position:absolute;left:0;right:0;bottom:.02em;height:3px;border-radius:2px;background:currentColor;transform-origin:left;transform:scaleX(0);transition:transform 1s .5s}
+.rv.in .feel:after,html.shot .feel:after{transform:scaleX(1)}
+/* see/feel */
+.seefeel{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px}
+.sf{background:var(--card);border-radius:22px;overflow:hidden}
+.sfv{position:relative;height:420px;display:flex;align-items:flex-end;justify-content:center;background:radial-gradient(ellipse at 50% 70%,#1C2228,#121519 70%);overflow:hidden}
+.sfv img{height:400px;width:auto;-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
+.sfv.cam img{filter:grayscale(1) brightness(.55) contrast(1.1);opacity:.85}
+.sfv.cam:after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 2px,transparent 2px 4px)}
+.glove2{position:relative;height:400px;cursor:crosshair}.glove2 img{height:100%}.glove2 .touch-layer{position:absolute;inset:0;pointer-events:none}
+.tagc{position:absolute;top:16px;left:16px;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#9AA3AD;border:1px solid var(--line);padding:4px 8px;border-radius:6px;background:rgba(0,0,0,.3);z-index:2}
+.tagc.on{color:#3EC1EE;border-color:rgba(62,193,238,.4)}
+.sfm{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-top:1px solid var(--line);font-size:15px;color:var(--body)}
+.sfm b{font-family:'Geist Mono',monospace;font-weight:500;color:var(--ink)}.sfm u{text-decoration:none;color:#FF5A4E}.sfm i{font-style:normal;color:#3EC1EE}
+/* compare */
+.cmp{padding:130px 32px 0}
+.cmp h2{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:clamp(38px,4.6vw,64px);line-height:1.03;margin-top:16px;max-width:900px}
+.tbl{margin-top:40px;overflow-x:auto;border:1px solid var(--line);border-radius:20px}
+.tbl table{width:100%;border-collapse:collapse;font-size:15px;min-width:760px}
+.tbl th{text-align:left;font-family:'Geist Mono',monospace;font-weight:400;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);padding:18px 20px;border-bottom:1px solid var(--line)}
+.tbl td{padding:18px 20px;border-bottom:1px solid var(--line);color:var(--body)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td:first-child{color:var(--ink);font-weight:500}
+.tbl td.no{color:#6C727B}
+.tbl tr.me td{background:rgba(62,193,238,.07);color:var(--ink)}.tbl tr.me td:first-child{color:#3EC1EE;font-weight:600}
+/* quotes */
+.quotes2{margin-top:40px;border-top:1px solid var(--line)}
+.qr{display:grid;grid-template-columns:1fr 240px;gap:30px;align-items:baseline;padding:30px 0;border-bottom:1px solid var(--line);transition:padding .3s}
+.qr:hover{padding-left:10px}
+.qr p{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:clamp(22px,2.4vw,32px);line-height:1.25;color:var(--ink)}
+.qr p em{font-style:italic;color:inherit}
+.qr span{font-family:'Geist Mono',monospace;font-size:12px;color:var(--mut);text-align:right}
+/* specs */
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
+.sp{background:var(--card);border-radius:20px;padding:28px}
+.sp b{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:clamp(40px,3.9vw,58px);line-height:1;white-space:nowrap}
+.sp .t{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px}
+.sp i{font-style:normal;font-family:'Geist Mono',monospace;font-size:13px;color:var(--acc);letter-spacing:.06em}
+.sp p{color:var(--body);font-size:15px;margin-top:16px;line-height:1.5}
+.note{font-family:'Geist Mono',monospace;font-size:11px;color:var(--mut);margin-top:16px;letter-spacing:.06em;text-transform:uppercase}
+/* hardware */
+.hwlist{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:48px;border-top:1px solid var(--line)}
+.hwi{padding:26px 24px 0 0;border-right:1px solid var(--line);padding-left:24px}.hwi:first-child{padding-left:0}.hwi:last-child{border-right:0}
+.ver{font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#3DDC97;background:rgba(61,220,151,.08);border:1px solid rgba(61,220,151,.25);padding:4px 8px;border-radius:999px}
+.ver.soon{color:#9AA3AD;background:rgba(255,255,255,.04);border-color:var(--line)}
+.hwi h4{font-size:20px;font-weight:600;margin-top:20px}
+.hwi p{color:var(--body);font-size:15px;margin-top:10px}
+/* evidence */
+.egrid{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:16px;margin-top:48px}
+.ev{background:var(--card);border-radius:20px;padding:30px;display:flex;flex-direction:column}
+.ev b{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:clamp(52px,5.4vw,80px);line-height:1;letter-spacing:-.02em}
+.ev b span{color:var(--mut);font-size:.55em;margin-right:6px}
+.ev p{color:#D0D4D9;font-size:16px;margin-top:16px;flex:1}
+.ev small{font-family:'Geist Mono',monospace;font-size:11px;color:var(--mut);margin-top:22px;padding-top:14px;border-top:1px solid var(--line)}
+/* work */
+.work{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;padding-bottom:20px}
+.opts{display:grid;gap:12px;margin-top:34px}
+.op{background:var(--card);border-radius:16px;padding:18px 22px}
+.op h4{font-size:17px;font-weight:600}.op p{color:var(--body);font-size:15px;margin-top:4px}
+.who{color:var(--mut);font-size:14px;margin-top:24px}
+.wf{background:var(--light);color:var(--lightInk);border-radius:24px;padding:32px;display:flex;flex-direction:column;gap:14px}
+.wf label{font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#7A8189;display:flex;flex-direction:column;gap:8px}
+.wf input,.wf select,.wf textarea{font:inherit;font-family:'Geist',sans-serif;font-size:15px;letter-spacing:0;text-transform:none;color:var(--lightInk);background:#fff;border:1px solid #D7DCE1;border-radius:12px;padding:12px 14px;outline:none}
+.wf input:focus,.wf select:focus,.wf textarea:focus{border-color:var(--lightInk)}
+.wf textarea{min-height:100px;resize:vertical}
+.wf .btn{background:var(--lightInk);color:#fff;border:0;cursor:pointer;justify-content:center;margin-top:4px}
+.fsent{font-size:12px;color:#7A8189;display:none}.fsent.on{display:block}
+/* how */
+.how{padding:130px 32px 110px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:56px;margin-top:40px}
+.st .n{font-family:'Geist Mono',monospace;font-size:13px;color:var(--acc);width:34px;height:34px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center}
+.st h4{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:32px;line-height:1.1;margin-top:22px}
+.st p{color:var(--body);font-size:17px;margin-top:12px;max-width:330px}
+/* field */
+.field{padding:130px 32px 0}
+.fcards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.fc{background:var(--card);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s}
+.fc:hover{transform:translateY(-3px)}
+.fc .ph{aspect-ratio:4/3;overflow:hidden;background:var(--blush)}.fc .ph img{width:100%;height:100%;object-fit:cover}
+.fc .body{padding:20px 20px 22px;display:flex;flex-direction:column;flex:1}
+.fc .who{font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.fc h4{font-size:19px;font-weight:600;margin-top:10px}
+.fc p{color:var(--body);font-size:14.5px;margin-top:8px}
+.fc .src2{margin-top:auto;padding-top:16px;font-size:13px;color:#D0D4D9}
+.fnote{margin-top:22px;background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:20px 24px;font-size:17px;color:#D0D4D9}
+
+.credit{font-size:11px;color:#4D535B;margin-top:14px}
+/* proof */
+.proof{padding:110px 32px 0}
+.pcard{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:56px;background:var(--card);border-radius:24px;padding:44px 56px}
+.pn{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:clamp(56px,7vw,104px);line-height:1;letter-spacing:-.03em;white-space:nowrap}
+.pn span{color:var(--mut)}.pn i{font-style:normal;color:var(--acc);margin:0 .14em;font-size:.6em;vertical-align:.16em}
+.ptxt p{color:#D0D4D9;font-size:22px;line-height:1.4;margin-top:12px;max-width:440px}.ptxt b{color:var(--ink);font-weight:600}
+.ptxt small{display:block;margin-top:14px;font-family:'Geist Mono',monospace;font-size:12px;color:var(--mut)}
+/* section head */
+.sec{padding:120px 0 0}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:40px}
+.head h3{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:clamp(34px,3.6vw,48px);line-height:1.05;margin-top:14px}
+.more{font-size:15px;color:#D0D4D9;white-space:nowrap}
+/* research cards */
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.rc{background:var(--card);border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.rc .num{aspect-ratio:16/10;background:var(--card2);display:flex;align-items:center;justify-content:center;font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:clamp(56px,6vw,84px);letter-spacing:-.02em;position:relative;overflow:hidden}
+.rc .num span{color:var(--mut);font-size:.55em;margin-right:12px}
+.rc .num:after{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(62,193,238,.22) 1.2px,transparent 1.6px);background-size:22px 22px;-webkit-mask-image:radial-gradient(ellipse at 50% 60%,#000,transparent 70%);mask-image:radial-gradient(ellipse at 50% 60%,#000,transparent 70%)}
+.rc .body{padding:24px 24px 26px;flex:1;display:flex;flex-direction:column}
+.rc h4{font-size:19px;font-weight:600;line-height:1.3}
+.rc .meta{margin-top:auto;padding-top:22px;display:flex;justify-content:space-between;font-size:13px;color:var(--mut)}
+.rc .meta b{color:#D0D4D9;font-weight:500}
+/* news */
+.news{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.nc{background:var(--card);border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.nc .ph{aspect-ratio:3/2;overflow:hidden;background:var(--blush)}
+.nc .ph img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.nc:hover .ph img{transform:scale(1.03)}
+.nc .body{padding:22px 24px 24px;display:flex;flex-direction:column;flex:1}
+.nc .tag{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+.nc .date{font-size:13px;color:var(--mut);margin-top:10px}
+.nc h4{font-size:19px;font-weight:600;line-height:1.3;margin-top:12px}
+.nc .foot{margin-top:auto;padding-top:24px;display:flex;justify-content:space-between;font-size:14px;color:#D0D4D9}
+.credit{font-size:11px;color:#4D535B;margin-top:14px}
+/* uz strip */
+.uz{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.uz .big{background:var(--card);border-radius:20px;padding:44px}
+.uz .big h3{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:clamp(32px,3.2vw,44px);line-height:1.08;margin-top:14px}
+.uz .big p{color:var(--body);margin-top:16px;font-size:17px;max-width:460px}
+.uz .list{display:grid;gap:16px}
+.uz .it{background:var(--card);border-radius:20px;padding:28px 30px}
+.uz .it h4{font-size:19px;font-weight:600}
+.uz .it p{color:var(--body);font-size:15px;margin-top:6px}
+/* team */
+.team{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.person{background:var(--card);border-radius:20px;padding:36px}
+.person .role{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+.person h4{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:36px;line-height:1.05;margin-top:12px}
+.person ul{list-style:none;margin-top:20px;display:grid;gap:10px;color:var(--body);font-size:15px}
+.person li b{color:var(--ink);font-weight:600}
+/* cta row */
+.ctarow{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:110px 32px 80px;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:110px}
+.ctarow h3{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:clamp(32px,3.4vw,46px);line-height:1.05;margin-top:12px}
+.ctarow p{color:var(--body);font-size:17px;margin-top:12px;max-width:520px}
+/* light block */
+.lightblock{margin:110px 16px 0;background:var(--light);color:var(--lightInk);border-radius:28px;padding:110px 32px;text-align:center}
+.lightblock .eyebrow{color:#7A8189}
+.lightblock h3{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:clamp(40px,4.6vw,64px);line-height:1.04;margin-top:16px}
+.lightblock p{color:#5B626B;font-size:19px;max-width:560px;margin:18px auto 0}
+.lightblock .btn{background:var(--lightInk);color:#fff;margin-top:30px}
+/* footer */
+footer{padding:90px 0 40px}
+.fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:30px}
+.fgrid h5{font-family:'Newsreader',Georgia,serif;font-size:17px;font-weight:600;margin-bottom:16px}
+.fgrid a,.fgrid span{display:block;font-size:14px;color:var(--body);margin-bottom:10px}
+.fgrid a:hover{color:#fff}
+.fbot{display:flex;justify-content:space-between;align-items:center;margin-top:70px;padding-top:24px;border-top:1px solid var(--line);font-size:13px;color:var(--mut);flex-wrap:wrap;gap:12px}
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s,transform .8s}.rv.in{opacity:1;transform:none}
+html.shot .rv{opacity:1;transform:none}
+@media(max-width:900px){
+  nav .links,nav .menu{display:none}#navcta{display:inline-flex!important;margin-left:auto}
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero .txt{padding:56px 0 30px}
+  .hero .vis{width:min(80%,320px)}
+  .duo,.cards3,.news,.uz,.team,.steps,.pstats,.sgrid,.egrid,.work{grid-template-columns:1fr}.hwlist{grid-template-columns:1fr 1fr;row-gap:28px}.hwi{border-right:0;padding:20px 12px 0 0}.problem,.specs2,.hw,.evid,.work,.cmp{padding:90px 20px 0}.seefeel{grid-template-columns:1fr}.gap{grid-template-columns:1fr;gap:32px}.sfv{height:320px}.sfv img,.glove2{height:300px}.qr{grid-template-columns:1fr;gap:10px}.qr span{text-align:left}.work{gap:36px}.trust .wrap{font-size:13px}.fcards{grid-template-columns:1fr 1fr;gap:12px}.field{padding:90px 20px 0}.fc h4{font-size:16px}.fc p{font-size:13px}.steps{gap:36px}.how{padding:90px 20px 70px}.proof{padding:80px 20px 0}.pcard{grid-template-columns:1fr;gap:18px;padding:30px 24px}.pn{font-size:clamp(52px,15vw,80px)}.ptxt p{font-size:18px}.lightblock{margin-top:80px}
+  .duo{padding:0 12px}.prod .top{padding:56px 24px 34px}
+  .prod.light .ph{aspect-ratio:auto;padding:22px 0}.prod.light .datapanel{position:static}.cons{width:94%}.cbar{gap:10px}.cbar .sess,.cbar .hz{display:none}.cbar .rec2{margin-left:auto}.cmain{grid-template-columns:1fr}.mapcol{border-right:0;border-bottom:1px solid #1E2328}.kpis b{font-size:16px}
+  .head{flex-direction:column;align-items:flex-start}
+  .uz .big{padding:32px}
+  .fgrid{grid-template-columns:1fr 1fr}
+  .wrap{padding:0 20px}.lightblock{margin:0 12px;padding:72px 22px}
+}
+@media(prefers-reduced-motion:reduce){.rv{transition:none}}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a href="#" class="word">SEZGI</a>
+    <div class="links"><a href="#problem">Problem</a><a href="#how">How it works</a><a href="#specs">Specs</a><a href="#compare">Compare</a><a href="#evidence">Research</a><a href="#contact">Contact</a></div>
+  <a href="#contact" class="btn sm" style="display:none" id="navcta">Contact</a>
+</div></nav>
+
+<header class="wrap hero">
+  <div class="txt">
+    <div class="eyebrow">Tactile data for robot hands</div>
+    <h1>Teaching robots to feel.</h1>
+    <p>Robots learned to see — but not to feel. Sezgi is a glove that records how people touch things, so robot hands can learn it.</p>
+    <div class="cta">
+      <a href="#how" class="btn">See how it works <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" fill="none" stroke-width="1.6"/></svg></a>
+      <a href="#contact" class="btn ghost">Talk to our team <svg viewBox="0 0 16 16"><path d="M5 11l6-6M6 5h5v5" stroke="currentColor" fill="none" stroke-width="1.6"/></svg></a>
+    </div>
+  </div>
+  <div class="vis" data-touch data-cuff="0.80"><img src="img/glove-palm.png" alt="Sezgi glove: a knitted lattice of conductive threads with a touch sensor at every crossing"></div>
+</header>
+
+<div class="trust"><div class="wrap">
+  <span><b>Built by a team of robotics world champions</b> · 5+ years each in robotics engineering</span>
+  <span class="tg">Grounded in research from <b>MIT CSAIL</b> · <b>Meta FAIR</b> · <b>TACROSS</b></span>
+</div></div>
+
+<section class="wrap problem" id="problem">
+  <div class="gap">
+    <figure class="gv rv">
+      <div class="vwrap"><video src="media/hands-sewing.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Hands guiding fabric through a sewing machine"></video>
+        <div class="hud"><span><i></i>CAMERA</span><span>force: <u>unknown</u></span></div></div>
+      <figcaption>Hands at work, filmed up close. The camera sees the motion — never the pressure.</figcaption>
+    </figure>
+    <div class="gt">
+      <div class="eyebrow rv">01 · The gap</div>
+      <h2 class="rv">Robots can see. <br>They can’t <em class="feel">feel</em>.</h2>
+      <p class="lead2 rv">Robot hands fail at the grasp. Once the fingers close around an object, the camera has nothing left to measure — and pressure was never in the frame to begin with.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap how" id="how">
+  <div class="eyebrow rv">02 · How it works</div>
+  <div class="steps">
+    <div class="st rv"><div class="n">1</div><h4>People work in the glove</h4><p>Sewing, cooking, assembling — normal work, in a thin fabric glove.</p></div>
+    <div class="st rv"><div class="n">2</div><h4>It records every touch</h4><p>500 sensors across the whole hand capture where and how hard each finger presses.</p></div>
+    <div class="st rv"><div class="n">3</div><h4>Robots learn to feel</h4><p>That data trains robot hands to grip like a human — without crushing or dropping.</p></div>
+  </div>
+</section>
+
+<div class="duo" id="products">
+  <div class="prod dark">
+    <div class="top"><div class="eyebrow">Sezgi Glove · v0</div><h2>Sezgi Glove</h2>
+      <p>500 touch sensors woven into a thin glove you can wear all day.</p>
+      <div class="cta"><a class="btn sm" href="#contact">Learn more</a><a class="btn sm ghost" href="#contact">Pilot</a></div></div>
+    <div class="ph"><img src="img/panel-glove.jpg" alt="Back of the Sezgi glove"></div>
+  </div>
+  <div class="prod light">
+    <div class="top"><div class="eyebrow">Sezgi Data</div><h2>Sezgi Data</h2>
+      <p>Touch data from real work, ready to train any robot hand.</p>
+      <div class="cta"><a class="btn sm" href="#contact">Learn more</a><a class="btn sm ghost" href="#contact">Request sample</a></div></div>
+    <div class="ph"><div class="datapanel"><div class="cons" id="cons">
+      <div class="cbar"><span class="brand">SEZGI CAPTURE</span><span class="sess" id="sess">fold_shirt · ep 0412</span><span class="rec2"><i></i>REC</span><span class="hz">100 Hz</span><span id="rtime">00:41.20</span></div>
+      <div class="cmain">
+        <div class="mapcol">
+          <div class="clabel">Pressure map · 500 taxels</div>
+          <div class="mapwrap"><canvas id="handmap" aria-label="Interactive pressure map — press and drag on the hand"></canvas><div class="tip" id="tip"></div><span class="hint2" id="hint2">press &amp; drag on the hand</span></div>
+          <div class="cscale"><span>0</span><i></i><span>40 kPa</span></div>
+        </div>
+        <div class="sidecol">
+          <div class="clabel">Region pressure · kPa</div>
+          <div class="regions" id="regions"></div>
+          <div class="kpis">
+            <div><small>Grip force</small><b><span id="sF">12.4</span><u>N</u></b></div>
+            <div><small>Contact area</small><b><span id="sA">18</span><u>cm²</u></b></div>
+            <div><small>Slip</small><b class="st ok" id="sS">STABLE</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="cplots">
+        <div class="clabel"><span>Total force · N</span><span>Slip events</span><span class="ax">−10 s · now</span></div>
+        <canvas id="plot"></canvas>
+      </div>
+    </div></div></div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<section class="wrap specs2" id="specs">
+  <div class="eyebrow rv">03 · What one glove records</div>
+  <h2 class="rv">Every touch, measured. <em>Across the whole hand.</em></h2>
+  <div class="sgrid">
+    <div class="sp rv"><div class="t"><b>500</b><i>taxels</i></div><p>Piezoresistive textile array knitted into the glove — palm to fingertips, ~4 mm pitch.</p></div>
+    <div class="sp rv"><div class="t"><b>26</b><i>DOF</i></div><p>Joint angles for every finger, read on the hand by inertial sensors — not guessed from video.</p></div>
+    <div class="sp rv"><div class="t"><b>3-axis</b><i>force</i></div><p>Normal force and shear at the fingertips — the signal that predicts a slip before the drop.</p></div>
+    <div class="sp rv"><div class="t"><b>&lt;10</b><i>ms sync</i></div><p>Touch, joints and video on one hardware clock at 100 Hz, exported in LeRobot format.</p></div>
+  </div>
+  <p class="note rv">Specs are design targets for v1.</p>
+</section>
+
+<section class="wrap hw" id="hardware">
+  <div class="eyebrow rv">04 · What we’re building</div>
+  <h2 class="rv">The hardware, <em>step by step.</em></h2>
+  <div class="hwlist">
+    <div class="hwi rv"><span class="ver">v0 · in development</span><h4>Knitted sensor lattice</h4><p>Conductive threads cross a pressure-sensitive layer; every crossing becomes a sensor. Thin, washable, worn all day.</p></div>
+    <div class="hwi rv"><span class="ver">v0 · in development</span><h4>Wireless capture module</h4><p>A small wrist unit reads all 500 taxels and streams them with a synced first-person camera.</p></div>
+    <div class="hwi rv"><span class="ver soon">v1 · next</span><h4>Joint tracking</h4><p>Sixteen motion nodes sit flush in the knit and track every finger joint.</p></div>
+    <div class="hwi rv"><span class="ver soon">v1 · next</span><h4>Fingertip force &amp; shear</h4><p>Magnetic 3-axis sensors on the fingertips calibrate the whole glove in newtons.</p></div>
+  </div>
+</section>
+
+<section class="wrap cmp" id="compare">
+  <div class="eyebrow rv">06 · Side by side</div>
+  <h2 class="rv">How robots learn to use their hands <em>today.</em></h2>
+  <p class="lead2 rv">The touch column is where every other method runs out.</p>
+  <div class="tbl rv"><table>
+    <thead><tr><th>Data source</th><th>Finger motion</th><th>Touch &amp; force</th><th>When fingers are hidden</th><th>Cost to scale</th></tr></thead>
+    <tbody>
+      <tr><td>Internet video</td><td>Guessed from pixels</td><td class="no">None</td><td class="no">Lost</td><td>Cheap</td></tr>
+      <tr><td>Camera hand-tracking</td><td>Estimated</td><td class="no">None</td><td class="no">Fails at the grasp</td><td>Cheap</td></tr>
+      <tr><td>Robot teleoperation</td><td>Robot joints</td><td>Rare, robot-side</td><td>Yes</td><td class="no">One robot per operator</td></tr>
+      <tr><td>Simulation</td><td>Perfect, synthetic</td><td class="no">Guessed physics</td><td>Yes</td><td>Near-free</td></tr>
+      <tr class="me"><td>Sezgi glove</td><td>Measured on the hand</td><td>Whole hand, every touch</td><td>Unaffected</td><td>A glove, worn at work</td></tr>
+    </tbody></table></div>
+</section>
+
+<section class="wrap evid" id="evidence">
+  <div class="eyebrow rv">07 · Research</div>
+  <h2 class="rv">The research <em>is already in.</em></h2>
+  <div class="quotes2">
+    <a class="qr rv" href="https://tacross-touch-project.github.io/" target="_blank" rel="noopener"><p>Adding about an hour of human glove data raised robot task success from <em>51% to 92%</em>.</p><span>TACROSS · 2026 ↗</span></a>
+    <a class="qr rv" href="https://jessicayin.github.io/osmo_tactile_glove/" target="_blank" rel="noopener"><p>A robot trained <em>only on glove data</em> — no robot data at all — learned a contact-rich task.</p><span>Meta FAIR · OSMO ↗</span></a>
+    <a class="qr rv" href="https://stag.csail.mit.edu" target="_blank" rel="noopener"><p>A <em>$10 knitted glove</em> learned to recognize objects by touch alone.</p><span>MIT CSAIL · Nature 2019 ↗</span></a>
+  </div>
+</section>
+
+
+<section class="wrap work" id="contact">
+  <div class="wl">
+    <div class="eyebrow rv">08 · Work with us</div>
+    <h2 class="rv">Building a robot hand? <em>Let’s give it a sense of touch.</em></h2>
+    <div class="opts">
+      <div class="op rv"><h4>Robot labs</h4><p>Early access to tactile datasets in your hand’s format.</p></div>
+      <div class="op rv"><h4>Factories</h4><p>Pilot the glove on your floor — gloves are free.</p></div>
+      <div class="op rv"><h4>Researchers</h4><p>Data, hardware and co-authorship.</p></div>
+    </div>
+    <p class="who rv">Makhkambek Teshabayev · Ziyodulla Butakhonov — founders, Tashkent</p>
+  </div>
+  <form class="wf rv" id="form">
+    <label>Name<input name="name" required autocomplete="name"></label>
+    <label>Work email<input name="email" type="email" required autocomplete="email"></label>
+    <label>Company / lab<input name="org" autocomplete="organization"></label>
+    <label>I’m interested in<select name="topic"><option>Tactile data for my robot hand</option><option>Piloting the glove at my factory</option><option>Research partnership</option><option>Investing</option><option>Something else</option></select></label>
+    <label>Message<textarea name="msg" placeholder="Robot hand, task, quantity, timeline…"></textarea></label>
+    <button class="btn" type="submit">Send inquiry →</button>
+    <p class="fsent" id="fsent">Your email app will open with the message ready to send.</p>
+  </form>
+</section>
+
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div><div class="word" style="font-size:24px">SEZGI</div><span style="margin-top:18px;font-size:16px;color:#BFC4CA">Robots learned to see. We teach them to feel.</span></div>
+    <div><h5>Explore</h5><a href="#how">How it works</a><a href="#products">Products</a></div>
+    <div><h5>Company</h5><a href="#contact">Contact</a><a href="mailto:hello@sezgi.ai?subject=Sezgi%20pilot">Pilot program</a></div>
+    <div><h5>Follow us</h5><a href="#">LinkedIn ↗</a><a href="#">Telegram ↗</a></div>
+  </div>
+  <div class="fbot"><span>© 2026 Sezgi · Tashkent, Uzbekistan</span><span>“Sezgi” means feeling in Uzbek</span></div>
+</div></footer>
+
+<script src="touch.js"></script>
+<script>
+(function(){
+ const hm=document.getElementById('handmap'); if(!hm) return; const hx=hm.getContext('2d');
+ const pts=((window.SEZGI_MASKS||{})['img/glove-palm.png']||[]).filter(p=>p[1]<.8).map(([u,v])=>({u,v,I:0}));
+ const CM=[[0,[27,33,41]],[.12,[59,15,112]],[.35,[140,41,129]],[.6,[222,73,104]],[.82,[254,159,109]],[1,[252,253,191]]];
+ const cm=t=>{for(let i=1;i<CM.length;i++)if(t<=CM[i][0]){const a=CM[i-1],b=CM[i],k=(t-a[0])/(b[0]-a[0]);return a[1].map((v,j)=>Math.round(v+(b[1][j]-v)*k))}return CM[CM.length-1][1]};
+ const REG=[['Thumb',p=>p.u>.6&&p.v>.28&&p.v<.6],['Index',p=>p.u>=.42&&p.u<=.6&&p.v<.34],['Middle',p=>p.u>=.27&&p.u<.42&&p.v<.32],['Ring',p=>p.u>=.15&&p.u<.27&&p.v<.36],['Little',p=>p.u<.15&&p.v<.42],['Palm',()=>true]];
+ pts.forEach((p,k)=>{p.id=Math.round(k*499/(pts.length-1))+1;p.r=REG.findIndex(([n,f])=>f(p))});
+ const regEl=document.getElementById('regions'); regEl.innerHTML=REG.map(([n])=>`<div class="rg"><span>${n}</span><div class="bar"><i></i></div><em>0.0</em></div>`).join('');
+ const bars=[...regEl.querySelectorAll('i')],vals=[...regEl.querySelectorAll('em')];
+ const tips=[[.10,.19],[.20,.08],[.34,.04],[.51,.08],[.92,.42]];
+ const F=document.getElementById('sF'),A=document.getElementById('sA'),S=document.getElementById('sS'),T=document.getElementById('rtime'),tip=document.getElementById('tip'),hint=document.getElementById('hint2'),sess=document.getElementById('sess');
+ const plot=document.getElementById('plot'),px=plot.getContext('2d'),N=125,hF=[],hS=[];
+ const P={u:-9,v:-9,on:false,down:false,amt:0,lastT:-1e9,spd:0,pu:-9,pv:-9,slipT:-1e9,mx:0,my:0};
+ let geo={};
+ function layout(){const w=hm.clientWidth,h=hm.clientHeight,pad=w*.06,AR=737/(1100*.8),bh=Math.min(h-2*pad,(w-2*pad)/AR),bw=bh*AR;geo={w,h,bw,bh,ox:(w-bw)/2,oy:(h-bh)/2}}
+ function loc(e){layout();const r=hm.getBoundingClientRect();P.mx=e.clientX-r.left;P.my=e.clientY-r.top;const u=(P.mx-geo.ox)/geo.bw,v=(P.my-geo.oy)/geo.bh*.8,now=performance.now();
+  if(P.pu>-5){const d=Math.hypot(u-P.pu,v-P.pv),dt=Math.max(1,now-P.lastT);P.spd=P.spd*.6+.4*(d/dt*1000)}P.u=u;P.v=v;P.pu=u;P.pv=v;P.lastT=now;P.on=true}
+ hm.addEventListener('pointermove',loc);
+ hm.addEventListener('pointerdown',e=>{P.down=true;loc(e);hm.setPointerCapture(e.pointerId)});
+ addEventListener('pointerup',()=>{P.down=false});
+ hm.addEventListener('pointerleave',()=>{if(!P.down)P.on=false});
+ let t=0,last=performance.now(),acc=0;
+ for(let k=N;k>0;k--){const tt=-k*.08,g=.22+.78*(.5+.5*Math.sin(tt*1.1))**1.4,m=((tt%7)+7)%7;hF.push(2+16*g);hS.push(m>5.4&&m<6.2?1:0)}
+ function frame(now){requestAnimationFrame(frame);const dt=Math.min(.05,(now-last)/1000);last=now;t+=dt;
+  const user=now-P.lastT<2200;
+  P.amt+=((P.down?1:P.on?.4:0)-P.amt)*Math.min(1,dt*10);
+  let g=.22+.78*(.5+.5*Math.sin(t*1.1))**1.4, slip=((t%7)>5.4&&(t%7)<6.2)?1:0;
+  if(user){g=P.amt;if(P.down&&P.spd>.9)P.slipT=now;slip=now-P.slipT<1100?1:0;P.spd*=.9}
+  sess.textContent=user?'live · your touch':'fold_shirt · ep 0412'; hint.classList.toggle('off',user);
+  layout();const dpr=2,W=hm.width=geo.w*dpr,H=hm.height=geo.h*dpr;hx.setTransform(dpr,0,0,dpr,0,0);
+  // grid
+  hx.strokeStyle='rgba(255,255,255,.035)';hx.lineWidth=1;for(let x=0;x<geo.w;x+=geo.w/12){hx.beginPath();hx.moveTo(x,0);hx.lineTo(x,geo.h);hx.stroke()}for(let y=0;y<geo.h;y+=geo.w/12){hx.beginPath();hx.moveTo(0,y);hx.lineTo(geo.w,y);hx.stroke()}
+  const cs=geo.bw/44*.86; const rs=new Array(REG.length).fill(0),rc=new Array(REG.length).fill(0); let sum=0,on=0,near=null,nd=1e9;
+  for(const p of pts){let I=0;
+   if(user){const d=Math.hypot(p.u-P.u,(p.v-P.v)*1.15),R=.06+.05*P.amt;I=P.amt*1.15*Math.exp(-d*d/(2*R*R));if(slip)I+=.35*Math.exp(-d*d/(2*.12*.12))}
+   else{for(const [a,b] of tips){const d=Math.hypot(p.u-a,p.v-b);I+=g*Math.exp(-d*d/(2*.05*.05))}const dp=Math.hypot(p.u-.4,p.v-.58);I+=g*.7*Math.exp(-dp*dp/(2*.16*.16));if(slip){const ds=Math.hypot(p.u-.51,p.v-.08);I+=.5*Math.exp(-ds*ds/(2*.06*.06))}}
+   I=Math.min(1,I);p.I=p.I+(I-p.I)*Math.min(1,dt*14);
+   const x=geo.ox+p.u*geo.bw,y=geo.oy+p.v/.8*geo.bh,[r,gg,b]=cm(p.I);
+   hx.fillStyle=`rgb(${r},${gg},${b})`;hx.fillRect(x-cs/2,y-cs/2,cs,cs);
+   sum+=p.I;if(p.I>.15)on++;rs[p.r]+=p.I;rc[p.r]++;
+   if(user){const dd=Math.hypot(x-P.mx,y-P.my);if(dd<nd){nd=dd;near=p}}}
+  // crosshair + tooltip
+  if(user&&P.on){hx.strokeStyle='rgba(155,227,247,.55)';hx.setLineDash([3,3]);hx.beginPath();hx.moveTo(P.mx,0);hx.lineTo(P.mx,geo.h);hx.moveTo(0,P.my);hx.lineTo(geo.w,P.my);hx.stroke();hx.setLineDash([]);
+   if(near&&nd<cs*2){tip.style.opacity=1;tip.style.left=P.mx+'px';tip.style.top=P.my+'px';tip.textContent=`T-${String(near.id).padStart(3,'0')} · ${(near.I*40).toFixed(1)} kPa`}else tip.style.opacity=0}else tip.style.opacity=0;
+  REG.forEach((_,k)=>{const kp=rc[k]?rs[k]/rc[k]*40*2.2:0,c=Math.min(40,kp);bars[k].style.width=(c/40*100)+'%';vals[k].textContent=c.toFixed(1)});
+  const force=Math.min(60,sum*.09);F.textContent=force.toFixed(1);A.textContent=Math.round(on*.42);
+  S.textContent=slip?'DETECTED':'STABLE';S.className='st '+(slip?'bad':'ok');
+  const sec=41.2+t;T.textContent=`00:${String(Math.floor(sec)%60).padStart(2,'0')}.${String(Math.floor((sec%1)*100)).padStart(2,'0')}`;
+  acc+=dt;if(acc>=.08){acc=0;hF.push(force);hS.push(slip);if(hF.length>N){hF.shift();hS.shift()}}
+  // plot
+  const pw=plot.width=plot.clientWidth*2,ph=plot.height=plot.clientHeight*2;px.setTransform(2,0,0,2,0,0);const w=pw/2,h=ph/2,top=4,bot=h-14,max=Math.max(25,...hF)*1.1;
+  px.strokeStyle='#1E2328';px.lineWidth=1;px.fillStyle='#5B636C';px.font="9px 'Geist Mono'";
+  for(let k=0;k<=2;k++){const y=top+(bot-top)*k/2;px.beginPath();px.moveTo(24,y);px.lineTo(w,y);px.stroke();px.fillText(String(Math.round(max*(1-k/2))),0,y+3)}
+  for(let k=0;k<=5;k++){const x=24+(w-24)*k/5;px.beginPath();px.moveTo(x,top);px.lineTo(x,bot);px.stroke()}
+  px.fillStyle='rgba(255,90,78,.28)';hS.forEach((v,i)=>{if(v)px.fillRect(24+(w-24)*i/N,top,(w-24)/N+1,bot-top)});
+  const grad=px.createLinearGradient(0,top,0,bot);grad.addColorStop(0,'rgba(62,193,238,.35)');grad.addColorStop(1,'rgba(62,193,238,0)');
+  px.beginPath();hF.forEach((v,i)=>{const x=24+(w-24)*i/(N-1),y=bot-(v/max)*(bot-top);i?px.lineTo(x,y):px.moveTo(x,y)});px.strokeStyle='#3EC1EE';px.lineWidth=1.6;px.stroke();
+  px.lineTo(w,bot);px.lineTo(24,bot);px.fillStyle=grad;px.fill();
+  px.fillStyle='#5B636C';['-10s','-8','-6','-4','-2','now'].forEach((l,k)=>px.fillText(l,24+(w-24)*k/5-(k===5?18:k?6:0),h-2));
+ }
+ requestAnimationFrame(frame);
+})();
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();const f=new FormData(e.target);
+ const body=`Name: ${f.get('name')}\nEmail: ${f.get('email')}\nCompany / lab: ${f.get('org')}\nInterested in: ${f.get('topic')}\n\n${f.get('msg')}`;
+ document.getElementById('fsent').classList.add('on');
+ location.href='mailto:hello@sezgi.ai?subject='+encodeURIComponent('Sezgi — '+f.get('topic'))+'&body='+encodeURIComponent(body)});
+</script>
+</body>
+</html>
