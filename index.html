@@ -43,8 +43,10 @@ nav .menu{font-size:15px;color:#D0D4D9;display:flex;gap:6px;align-items:center}
 .hero .cta{display:flex;gap:12px;margin-top:36px;flex-wrap:wrap}
 .badge{display:flex;align-items:center;gap:12px;margin-top:34px;font-size:15px;color:#BFC4CA}
 .badge i{width:22px;height:22px;border-radius:4px;display:grid;place-items:center;background:linear-gradient(#1EB53A 0 33%,#fff 33% 37%,#0099B5 37% 63%,#fff 63% 67%,#CE1126 67%);flex:none}
-.hero .vis{position:relative;align-self:end;justify-self:center;width:min(100%,470px);margin-bottom:-40px;z-index:2;cursor:crosshair;touch-action:pan-y}
+.hero .vis{position:relative;align-self:end;justify-self:center;width:min(100%,470px);margin-bottom:-40px;z-index:2;cursor:default;touch-action:pan-y}
 .hero .vis img{width:100%;-webkit-mask-image:linear-gradient(#000 80%,transparent 100%);mask-image:linear-gradient(#000 80%,transparent 100%);user-select:none;-webkit-user-drag:none}
+.hero .vis.photo{width:min(100%,520px);margin-bottom:0}
+.hero .vis.photo img{-webkit-mask-image:radial-gradient(ellipse 62% 58% at 52% 46%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 62% 58% at 52% 46%,#000 62%,transparent 100%)}
 .hero .vis .touch-layer{position:absolute;inset:0;pointer-events:none}
 /* product cards */
 .duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:0 16px}
@@ -72,7 +74,7 @@ nav .menu{font-size:15px;color:#D0D4D9;display:flex;gap:6px;align-items:center}
 .clabel{display:flex;gap:14px;color:#6E7781;text-transform:uppercase;letter-spacing:.1em;font-size:9.5px;margin-bottom:8px}
 .clabel .ax{margin-left:auto}
 .mapwrap{position:relative}
-#handmap{width:100%;aspect-ratio:1/1.08;display:block;cursor:crosshair;touch-action:none;border-radius:8px;background:#0A0C0F}
+#handmap{width:100%;aspect-ratio:1/1.08;display:block;cursor:default;touch-action:none;border-radius:8px;background:#0A0C0F}
 .tip{position:absolute;pointer-events:none;background:#E9ECEF;color:#0D1013;font-size:10px;padding:3px 6px;border-radius:4px;white-space:nowrap;transform:translate(10px,-24px);opacity:0;transition:opacity .15s}
 .hint2{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);white-space:nowrap;font-size:9.5px;letter-spacing:.06em;color:#9BE3F7;background:rgba(10,12,15,.8);border:1px solid rgba(155,227,247,.3);padding:4px 8px;border-radius:999px;pointer-events:none;transition:opacity .3s;animation:pulse2 2s infinite}
 @keyframes pulse2{50%{border-color:rgba(155,227,247,.85)}}
@@ -110,7 +112,16 @@ h2 em{font-style:italic;color:inherit;font-weight:500}
 .gap{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center}
 .gv{margin:0}
 .vwrap{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:16/10;background:#000;box-shadow:0 30px 70px rgba(0,0,0,.4)}
-.vwrap video{width:100%;height:100%;object-fit:cover;display:block}
+.vwrap video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .8s}
+.vwrap video.on{opacity:1}
+.hud span{transition:color .4s}
+.tabs{position:absolute;left:14px;right:14px;bottom:14px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;z-index:2}
+.tabs button{all:unset;cursor:pointer;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6);padding-top:9px;position:relative;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.tabs button:before,.tabs button:after{content:'';position:absolute;left:0;top:0;height:2px;border-radius:2px}
+.tabs button:before{right:0;background:rgba(255,255,255,.25)}
+.tabs button:after{width:var(--p,0%);background:#fff}
+.tabs button.on{color:#fff}
+
 .hud{position:absolute;left:14px;right:14px;top:14px;display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
 .hud span{background:rgba(0,0,0,.55);backdrop-filter:blur(6px);color:#E9ECEF;padding:6px 10px;border-radius:8px;display:flex;align-items:center;gap:8px}
 .hud i{width:7px;height:7px;border-radius:50%;background:#FF5A4E;animation:blink 1.2s infinite}
@@ -134,10 +145,27 @@ h2 em{font-style:italic;color:inherit;font-weight:500}
 .co p{color:var(--body);font-size:15px;margin-top:10px}
 .co .v{display:inline-block;margin-top:12px;font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#3DDC97;border:1px solid rgba(61,220,151,.3);padding:3px 8px;border-radius:999px}
 .co .v.soon{color:#9AA3AD;border-color:var(--line)}
-.gimg{position:relative}
-.gimg img{width:100%;-webkit-mask-image:linear-gradient(#000 78%,transparent 98%);mask-image:linear-gradient(#000 78%,transparent 98%)}
+.gimg{position:relative;cursor:default}
+.gimg img{-webkit-mask-image:radial-gradient(ellipse 64% 60% at 50% 48%,#000 64%,transparent 100%);mask-image:radial-gradient(ellipse 64% 60% at 50% 48%,#000 64%,transparent 100%)}
+.xr{position:absolute;left:0;top:0;pointer-events:none}
+.xhint{position:absolute;left:50%;bottom:4%;transform:translateX(-50%);font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#9BE3F7;background:rgba(10,12,15,.8);border:1px solid rgba(155,227,247,.3);padding:5px 10px;border-radius:999px;white-space:nowrap;transition:opacity .3s;pointer-events:none}
+.gimg img{width:100%}
 .dot{fill:#F2F3F4;stroke:#0C0E11;stroke-width:2}.ring{fill:rgba(12,14,17,.35);stroke:#F2F3F4;stroke-opacity:.6;animation:ping 2.4s infinite;transform-box:fill-box;transform-origin:center}
 @keyframes ping{0%{transform:scale(.7);opacity:1}100%{transform:scale(1.6);opacity:0}}
+/* road */
+.road{padding:130px 32px 0}
+.road h2{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:clamp(38px,4.6vw,64px);line-height:1.03;margin-top:16px;max-width:900px}
+.steps3{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:0;margin-top:56px}
+.rs{padding:0 32px 0 0}
+.rh{display:flex;align-items:center;gap:12px}
+.rh i{flex:1;height:1px;background:var(--line)}
+.rs .v{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#3DDC97;border:1px solid rgba(61,220,151,.3);padding:3px 8px;border-radius:999px}
+.rs .v.soon{color:#9AA3AD;border-color:var(--line)}
+.rn{font-family:'Geist Mono',monospace;font-size:12px;color:var(--mut);margin-top:28px}
+.rs h4{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:clamp(30px,2.8vw,40px);line-height:1.05;margin-top:8px}
+.rs p{color:var(--body);font-size:16px;margin-top:12px;max-width:380px}
+.rs.hl h4{font-style:italic}
+.rs.hl p{color:#D0D4D9}
 /* see/feel */
 .seefeel{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px}
 .sf{background:var(--card);border-radius:22px;overflow:hidden}
@@ -145,7 +173,7 @@ h2 em{font-style:italic;color:inherit;font-weight:500}
 .sfv img{height:400px;width:auto;-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
 .sfv.cam img{filter:grayscale(1) brightness(.55) contrast(1.1);opacity:.85}
 .sfv.cam:after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 2px,transparent 2px 4px)}
-.glove2{position:relative;height:400px;cursor:crosshair}.glove2 img{height:100%}.glove2 .touch-layer{position:absolute;inset:0;pointer-events:none}
+.glove2{position:relative;height:400px;cursor:default}.glove2 img{height:100%}.glove2 .touch-layer{position:absolute;inset:0;pointer-events:none}
 .tagc{position:absolute;top:16px;left:16px;font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.16em;color:#9AA3AD;border:1px solid var(--line);padding:4px 8px;border-radius:6px;background:rgba(0,0,0,.3);z-index:2}
 .tagc.on{color:#3EC1EE;border-color:rgba(62,193,238,.4)}
 .sfm{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-top:1px solid var(--line);font-size:15px;color:var(--body)}
@@ -297,7 +325,7 @@ html.shot .rv{opacity:1;transform:none}
   .hero{grid-template-columns:1fr;min-height:auto}
   .hero .txt{padding:56px 0 30px}
   .hero .vis{width:min(80%,320px)}
-  .duo,.cards3,.news,.uz,.team,.steps,.pstats,.sgrid,.egrid,.work{grid-template-columns:1fr}.hwlist{grid-template-columns:1fr 1fr;row-gap:28px}.hwi{border-right:0;padding:20px 12px 0 0}.problem,.specs2,.hw,.evid,.work,.cmp,.anat{padding:90px 20px 0}.dia{grid-template-columns:1fr;gap:28px}.lines{display:none}.col{gap:24px}.col.l{text-align:left;align-items:flex-start}.col.l .cn{justify-content:flex-start}.gimg{order:-1;width:70%;margin:0 auto}.seefeel{grid-template-columns:1fr}.gap{grid-template-columns:1fr;gap:32px}.sfv{height:320px}.sfv img,.glove2{height:300px}.qr{grid-template-columns:1fr;gap:10px}.qr span{text-align:left}.work{gap:36px}.trust .wrap{font-size:13px}.fcards{grid-template-columns:1fr 1fr;gap:12px}.field{padding:90px 20px 0}.fc h4{font-size:16px}.fc p{font-size:13px}.steps{gap:36px}.how{padding:90px 20px 70px}.proof{padding:80px 20px 0}.pcard{grid-template-columns:1fr;gap:18px;padding:30px 24px}.pn{font-size:clamp(52px,15vw,80px)}.ptxt p{font-size:18px}.lightblock{margin-top:80px}
+  .duo,.cards3,.news,.uz,.team,.steps,.pstats,.sgrid,.egrid,.work{grid-template-columns:1fr}.hwlist{grid-template-columns:1fr 1fr;row-gap:28px}.hwi{border-right:0;padding:20px 12px 0 0}.problem,.specs2,.hw,.evid,.work,.cmp,.anat{padding:90px 20px 0}.dia{grid-template-columns:1fr;gap:28px}.road{padding:90px 20px 0}.steps3{grid-template-columns:1fr;gap:36px}.rs{padding:0}.lines{display:none}.col{gap:24px}.col.l{text-align:left;align-items:flex-start}.col.l .cn{justify-content:flex-start}.gimg{order:-1;width:70%;margin:0 auto}.seefeel{grid-template-columns:1fr}.gap{grid-template-columns:1fr;gap:32px}.sfv{height:320px}.sfv img,.glove2{height:300px}.qr{grid-template-columns:1fr;gap:10px}.qr span{text-align:left}.work{gap:36px}.trust .wrap{font-size:13px}.fcards{grid-template-columns:1fr 1fr;gap:12px}.field{padding:90px 20px 0}.fc h4{font-size:16px}.fc p{font-size:13px}.steps{gap:36px}.how{padding:90px 20px 70px}.proof{padding:80px 20px 0}.pcard{grid-template-columns:1fr;gap:18px;padding:30px 24px}.pn{font-size:clamp(52px,15vw,80px)}.ptxt p{font-size:18px}.lightblock{margin-top:80px}
   .duo{padding:0 12px}.prod .top{padding:56px 24px 34px}
   .prod.light .ph{aspect-ratio:auto;padding:22px 0}.prod.light .datapanel{position:static}.cons{width:94%}.cbar{gap:10px}.cbar .sess,.cbar .hz{display:none}.cbar .rec2{margin-left:auto}.cmain{grid-template-columns:1fr}.mapcol{border-right:0;border-bottom:1px solid #1E2328}.kpis b{font-size:16px}
   .head{flex-direction:column;align-items:flex-start}
@@ -311,7 +339,7 @@ html.shot .rv{opacity:1;transform:none}
 <body>
 <nav><div class="wrap">
   <a href="#" class="word">SEZGI</a>
-    <div class="links"><a href="#problem">Problem</a><a href="#how">How it works</a><a href="#specs">Specs</a><a href="#compare">Compare</a><a href="#evidence">Research</a><a href="#contact">Contact</a></div>
+    <div class="links"><a href="#problem">Problem</a><a href="#how">How it works</a><a href="#specs">Specs</a><a href="#compare">Compare</a><a href="#vision">Vision</a><a href="#contact">Contact</a></div>
   <a href="#contact" class="btn sm" style="display:none" id="navcta">Contact</a>
 </div></nav>
 
@@ -325,7 +353,7 @@ html.shot .rv{opacity:1;transform:none}
       <a href="#contact" class="btn ghost">Talk to our team <svg viewBox="0 0 16 16"><path d="M5 11l6-6M6 5h5v5" stroke="currentColor" fill="none" stroke-width="1.6"/></svg></a>
     </div>
   </div>
-  <div class="vis" data-touch data-cuff="0.80"><img src="img/glove-palm.png" alt="Sezgi glove: a knitted lattice of conductive threads with a touch sensor at every crossing"></div>
+  <div class="vis photo" data-touch data-photo data-cuff="0.80" data-tips='[[0.09, 0.46, 0.04, 0.9], [0.3, 0.14, 0.045, 1], [0.48, 0.07, 0.045, 1], [0.64, 0.13, 0.045, 0.95], [0.8, 0.24, 0.04, 0.85], [0.44, 0.6, 0.075, 0.75]]'><img src="img/hero-glove.jpg" alt="The Sezgi glove: a thin two-tone technical glove with touch sensors across the fingers and palm"></div>
 </header>
 
 <div class="trust"><div class="wrap">
@@ -336,9 +364,15 @@ html.shot .rv{opacity:1;transform:none}
 <section class="wrap problem" id="problem">
   <div class="gap">
     <figure class="gv rv">
-      <div class="vwrap"><video src="media/hands-sewing.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Hands guiding fabric through a sewing machine"></video>
-        <div class="hud"><span><i></i>CAMERA</span><span>force: <u>unknown</u></span></div></div>
-      <figcaption>Hands at work, filmed up close. The camera sees the motion — never the pressure.</figcaption>
+      <div class="vwrap" id="reel">
+        <video data-cap="Sewing" src="media/hands-sewing.mp4" muted playsinline preload="auto" aria-label="Hands guiding fabric through a sewing machine"></video>
+        <video data-cap="Cooking" data-src="media/hands-cooking.mp4" muted playsinline preload="none" aria-label="Hands chopping garlic"></video>
+        <video data-cap="Baking" data-src="media/hands-dough.mp4" muted playsinline preload="none" aria-label="A palm pressing dough"></video>
+        <video data-cap="Folding" data-src="media/hands-folding.mp4" muted playsinline preload="none" aria-label="A tailor folding clothes"></video>
+        <div class="hud" id="hud"><span id="hsrc"><i></i>CAMERA</span><span>force: <u id="hforce">unknown</u></span></div>
+        <div class="tabs" id="tabs"></div>
+      </div>
+      <figcaption id="vcap">Everyday hand work, filmed up close. The camera sees the motion — never the pressure.</figcaption>
     </figure>
     <div class="gt">
       <div class="eyebrow rv">01 · The gap</div>
@@ -362,7 +396,7 @@ html.shot .rv{opacity:1;transform:none}
     <div class="top"><div class="eyebrow">Sezgi Glove · v0</div><h2>Sezgi Glove</h2>
       <p>500 touch sensors woven into a thin, washable glove.</p>
       <div class="cta"><a class="btn sm" href="#contact">Learn more</a><a class="btn sm ghost" href="#contact">Pilot</a></div></div>
-    <div class="ph"><img src="img/panel-glove.jpg" alt="Back of the Sezgi glove"></div>
+    <div class="ph"><img src="img/panel-glove2.jpg" alt="The Sezgi glove reaching forward"></div>
   </div>
   <div class="prod light">
     <div class="top"><div class="eyebrow">Sezgi Data</div><h2>Sezgi Data</h2>
@@ -408,13 +442,13 @@ html.shot .rv{opacity:1;transform:none}
   <div class="dia rv" id="dia">
     <svg class="lines" id="lines" aria-hidden="true"></svg>
     <div class="col l">
-      <div class="co" data-pt=".21,.10"><div class="cn">4<i>mm</i></div><p>Sensor pitch — touch resolved down to a fingertip’s edge.</p><span class="v">v0</span></div>
-      <div class="co" data-pt=".40,.58"><div class="cn">500<i>taxels</i></div><p>Textile pressure array knitted in, palm to fingertips.</p><span class="v">v0</span></div>
+      <div class="co" data-pt=".30,.14"><div class="cn">4<i>mm</i></div><p>Sensor pitch — touch resolved down to a fingertip’s edge.</p><span class="v">v0</span></div>
+      <div class="co" data-pt=".42,.60"><div class="cn">500<i>taxels</i></div><p>Textile pressure array knitted in, palm to fingertips.</p><span class="v">v0</span></div>
     </div>
-    <div class="gimg"><img src="img/glove-palm.png" alt="Sezgi glove"></div>
+    <div class="gimg"><img src="img/anat-glove.jpg" alt="The Sezgi glove — hover to see the sensor layer inside"></div>
     <div class="col r">
-      <div class="co" data-pt=".55,.34"><div class="cn">26<i>DOF</i></div><p>Every finger joint tracked by motion sensors in the knit.</p><span class="v soon">v1</span></div>
-      <div class="co" data-pt=".48,.86"><div class="cn">4<i>hours</i></div><p>Thin, washable fabric — worn through half a work shift on one charge.</p><span class="v">v0</span></div>
+      <div class="co" data-pt=".55,.36"><div class="cn">26<i>DOF</i></div><p>Every finger joint tracked by motion sensors in the knit.</p><span class="v soon">v1</span></div>
+      <div class="co" data-pt=".66,.86"><div class="cn">4<i>hours</i></div><p>Thin, washable fabric — worn through half a work shift on one charge.</p><span class="v">v0</span></div>
     </div>
   </div>
   <p class="note rv">Design targets · v0 in development · v1 next</p>
@@ -435,16 +469,15 @@ html.shot .rv{opacity:1;transform:none}
     </tbody></table></div>
 </section>
 
-<section class="wrap evid" id="evidence">
-  <div class="eyebrow rv">05 · Research</div>
-  <h2 class="rv">The research <em>is already in.</em></h2>
-  <div class="quotes2">
-    <a class="qr rv" href="https://tacross-touch-project.github.io/" target="_blank" rel="noopener"><p>Adding about an hour of human glove data raised robot task success from <em>51% to 92%</em>.</p><span>TACROSS · 2026 ↗</span></a>
-    <a class="qr rv" href="https://jessicayin.github.io/osmo_tactile_glove/" target="_blank" rel="noopener"><p>A robot trained <em>only on glove data</em> — no robot data at all — learned a contact-rich task.</p><span>Meta FAIR · OSMO ↗</span></a>
-    <a class="qr rv" href="https://stag.csail.mit.edu" target="_blank" rel="noopener"><p>A <em>$10 knitted glove</em> learned to recognize objects by touch alone.</p><span>MIT CSAIL · Nature 2019 ↗</span></a>
+<section class="wrap road" id="vision">
+  <div class="eyebrow rv">05 · Where this goes</div>
+  <h2 class="rv">From touch data to <em>robot hands that feel.</em></h2>
+  <div class="steps3">
+    <div class="rs rv"><div class="rh"><span class="v">Now</span><i></i></div><div class="rn">01</div><h4>Touch data</h4><p>Gloves on real work. Datasets for every lab training a robot hand.</p></div>
+    <div class="rs hl rv"><div class="rh"><span class="v soon">Next</span><i></i></div><div class="rn">02</div><h4>Touch simulator</h4><p>A physics engine learned from millions of real touches — friction, softness, slip — so any robot can train its hands in simulation before touching the real world.</p></div>
+    <div class="rs rv"><div class="rh"><span class="v soon">Then</span><i></i></div><div class="rn">03</div><h4>Our own hands</h4><p>Robot hands with the same sensing skin as the glove — built for the data they learned from.</p></div>
   </div>
 </section>
-
 
 <section class="wrap work" id="contact">
   <div class="wl">
@@ -455,7 +488,7 @@ html.shot .rv{opacity:1;transform:none}
       <div class="op rv"><h4>Factories</h4><p>Pilot the glove on your floor — gloves are free.</p></div>
       <div class="op rv"><h4>Researchers</h4><p>Data, hardware and co-authorship.</p></div>
     </div>
-    <p class="who rv">Makhkambek Teshabayev · Ziyodulla Butakhonov — founders, Tashkent</p>
+    <p class="who rv">Makhkambek Teshabayev, Founder &amp; CEO · Ziyodulla Butakhonov, Co-founder &amp; CTO — Tashkent</p>
   </div>
   <form class="wf rv" id="form">
     <label>Name<input name="name" required autocomplete="name"></label>
@@ -553,6 +586,42 @@ function draw(){if(getComputedStyle(svg).display==='none')return;const R=d.getBo
   h+=`<polyline points="${cx},${cy} ${mx},${cy} ${px},${py}" fill="none" stroke="rgba(242,243,244,.45)" stroke-width="1"/><circle class="ring" cx="${px}" cy="${py}" r="9"/><circle class="dot" cx="${px}" cy="${py}" r="3.5"/>`});
  svg.innerHTML=h}
 addEventListener('resize',draw);im.complete?draw():im.addEventListener('load',draw);setTimeout(draw,600)})();
+(function(){const r=document.getElementById('reel');if(!r)return;const V=[...r.querySelectorAll('video')],T=document.getElementById('tabs'),DUR=6;
+ T.innerHTML=V.map(v=>`<button type="button">${v.dataset.cap}</button>`).join('');const B=[...T.children];let i=0,start=0,vis=true;
+ const load=v=>{if(!v.src&&v.dataset.src){v.src=v.dataset.src;v.load()}};
+ function show(k){V.forEach((v,j)=>{v.classList.toggle('on',j===k);if(j!==k)v.pause()});B.forEach((b,j)=>{b.classList.toggle('on',j===k);b.style.setProperty('--p',j<k?'100%':'0%')});
+  const v=V[k];load(v);try{v.currentTime=0}catch(e){}v.play().catch(()=>{});i=k;start=performance.now();load(V[(k+1)%V.length])}
+ B.forEach((b,k)=>b.addEventListener('click',()=>show(k)));
+ new IntersectionObserver(e=>{vis=e[0].isIntersecting;if(vis)V[i].play().catch(()=>{});else V[i].pause()},{threshold:.2}).observe(r);
+ (function tick(now){requestAnimationFrame(tick);if(!vis)return;const v=V[i],d=Math.min(DUR,(v.duration||DUR)-.2),el=(now-start)/1000;
+  B[i].style.setProperty('--p',Math.min(100,el/d*100)+'%');if(el>=d)show((i+1)%V.length)})(performance.now());
+ show(0)})();
+
+(function(){const g=document.querySelector('#dia .gimg');if(!g)return;const img=g.querySelector('img');
+ const cv=document.createElement('canvas');cv.className='xr';g.appendChild(cv);const x=cv.getContext('2d');
+ const hint=document.createElement('span');hint.className='xhint';hint.textContent='hover to see inside';g.appendChild(hint);
+ const mask=new Image();mask.src='img/anat-mask.png';
+ const off=document.createElement('canvas'),o=off.getContext('2d');
+ let mx=-1e4,my=-1e4,last=-1e9,W=0,H=0,d=1;
+ g.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mx=e.clientX-r.left;my=e.clientY-r.top;last=performance.now()});
+ g.addEventListener('pointerleave',()=>{last=-1e9});
+ function lattice(t,scan){o.clearRect(0,0,W,H);o.fillStyle='rgba(6,10,14,.82)';o.fillRect(0,0,W,H);
+  const s=W/34;o.strokeStyle='rgba(155,200,220,.55)';o.lineWidth=1;
+  for(let y=s/2;y<H;y+=s){o.beginPath();for(let xx=0;xx<=W;xx+=6){o.lineTo(xx,y+Math.sin(xx/40+y/30)*1.2)}o.stroke()}
+  for(let xx=s/2;xx<W;xx+=s){o.beginPath();for(let y=0;y<=H;y+=6){o.lineTo(xx+Math.sin(y/45+xx/25)*1.2,y)}o.stroke()}
+  for(let y=s/2;y<H;y+=s)for(let xx=s/2;xx<W;xx+=s){const k=.5+.5*Math.sin(t/500+xx*.05+y*.07);o.fillStyle=`rgba(62,193,238,${.45+.5*k})`;o.beginPath();o.arc(xx,y,1.6+k*.9,0,6.283);o.fill()}
+  if(scan!=null){o.fillStyle='rgba(155,227,247,.95)';o.fillRect(0,scan-1.5*d,W,3*d)}
+  o.globalCompositeOperation='destination-in';if(mask.complete)o.drawImage(mask,0,0,W,H);o.globalCompositeOperation='source-over'}
+ (function tick(now){requestAnimationFrame(tick);const w=img.clientWidth,h=img.clientHeight;if(!w)return;d=Math.min(2,devicePixelRatio||1);
+  if(W!==w*d||H!==h*d){W=off.width=cv.width=w*d;H=off.height=cv.height=h*d;cv.style.width=w+'px';cv.style.height=h+'px'}
+  x.clearRect(0,0,W,H);const user=now-last<1500;const p2=(now/4200)%2,scanY=(p2<1?p2:2-p2)*H;lattice(now,user?null:scanY);hint.style.opacity=user?0:1;
+  x.save();x.beginPath();
+  if(user){const R=Math.min(W,H)*.2;x.arc(mx*d,my*d,R,0,6.283);x.clip();x.drawImage(off,0,0);x.restore();
+   x.strokeStyle='rgba(155,227,247,.9)';x.lineWidth=1.5*d;x.beginPath();x.arc(mx*d,my*d,R,0,6.283);x.stroke();
+   x.fillStyle='rgba(155,227,247,.9)';x.font=`${10*d}px 'Geist Mono',monospace`;x.fillText('X-RAY · SENSOR LAYER',mx*d-R*.62,my*d+R+16*d)}
+  else{const band=H*.16;x.rect(0,scanY-band,W,band+3*d);x.clip();x.drawImage(off,0,0);x.restore()}
+ })(performance.now());
+})();
 </script>
 </body>
 </html>
