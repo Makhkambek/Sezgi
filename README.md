@@ -1,6 +1,6 @@
-# Sezgi — website
+# Idrok Robotics — website
 
-Landing page for **Sezgi**: a fabric glove that records human touch across the whole hand, so robot hands can learn to feel.
+Landing page for **Idrok Robotics** (formerly Sezgi): a fabric glove that records human touch across the whole hand, so robot hands can learn to feel.
 
 Static site, no build step: open `index.html` or serve the folder (`python3 -m http.server`).
 
