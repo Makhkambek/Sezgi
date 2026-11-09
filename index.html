@@ -156,6 +156,17 @@ h2 em{font-style:italic;color:inherit;font-weight:500}
 .road{padding:130px 32px 0}
 .road h2{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:clamp(38px,4.6vw,64px);line-height:1.03;margin-top:16px;max-width:900px}
 .steps3{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:0;margin-top:56px}
+.finale{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:48px;margin-top:110px;border-top:1px solid var(--line);padding-top:20px}
+.finale .ft .v{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut)}
+.finale h3{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:clamp(36px,4vw,56px);line-height:1.04;margin-top:18px;max-width:520px}
+.finale h3 em{font-style:italic}
+.finale p{color:var(--body);font-size:17px;margin-top:18px;max-width:440px}
+.finale .fv{position:relative;justify-self:center;width:min(100%,430px)}
+.finale .fv::before{content:"";position:absolute;inset:8% -10% 12%;background:radial-gradient(closest-side,rgba(120,160,200,.20),rgba(120,160,200,0));z-index:0}
+.finale .fv img{position:relative;z-index:1;width:100%;height:auto;display:block;-webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent)}
+.finale .cr{position:relative;z-index:1;display:block;margin-top:6px;font-size:10.5px;color:var(--mut);text-align:center}
+.finale .cr a{color:inherit}
+@media (max-width:900px){.finale{grid-template-columns:1fr;gap:28px;margin-top:70px}.finale .fv{width:min(100%,320px)}}
 .rs{padding:0 32px 0 0}
 .rh{display:flex;align-items:center;gap:12px}
 .rh i{flex:1;height:1px;background:var(--line)}
@@ -476,6 +487,17 @@ html.shot .rv{opacity:1;transform:none}
     <div class="rs rv"><div class="rh"><span class="v">Now</span><i></i></div><div class="rn">01</div><h4>Touch data</h4><p>Gloves on real work. Datasets for every lab training a robot hand.</p></div>
     <div class="rs hl rv"><div class="rh"><span class="v soon">Next</span><i></i></div><div class="rn">02</div><h4>Touch simulator</h4><p>A physics engine learned from millions of real touches — friction, softness, slip — so any robot can train its hands in simulation before touching the real world.</p></div>
     <div class="rs rv"><div class="rh"><span class="v soon">Then</span><i></i></div><div class="rn">03</div><h4>Our own hands</h4><p>Robot hands with the same sensing skin as the glove — built for the data they learned from.</p></div>
+  </div>
+  <div class="finale">
+    <div class="ft rv">
+      <span class="v">03 · The end goal</span>
+      <h3>Robot hands that <em>feel what they hold.</em></h3>
+      <p>Every touch the glove records teaches a robot hand how hard to grip — firm enough to lift, gentle enough not to break a light bulb.</p>
+    </div>
+    <figure class="fv rv">
+      <img src="img/robot-hand-pro.webp" width="758" height="1300" loading="lazy" alt="A dexterous robot hand gently holding a light bulb between its fingertips">
+      <figcaption class="cr">Shadow Dexterous Hand · photo: Shadow Robot Co., <a href="https://commons.wikimedia.org/wiki/File:Shadow_Hand_Bulb_large_Alpha.png" target="_blank" rel="noopener">CC BY-SA 3.0</a></figcaption>
+    </figure>
   </div>
 </section>
 
